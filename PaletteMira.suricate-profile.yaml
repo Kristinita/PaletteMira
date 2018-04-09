@@ -1,0 +1,101 @@
+# [NOTE] Need place comments after key, not before:
+# https://stackoverflow.com/q/49613901/5951529
+description: Commands Of PaletteMira Package
+# Text, that will shown in command palette, if user print:
+# “Suricate: Add profile” or “Suricate: Remove profile”.
+# https://raw.githubusercontent.com/nsubiron/SublimeSuricate/master/profiles/Default.suricate-profile
+user_commands:
+  sasha_agent_ransack:
+    ################
+    # AgentRansack #
+    ################
+    # https://packagecontrol.io/packages/AgentRansack
+    call: sublime.agent_ransack
+    caption: 'AgentRansack: Open AgentRansack In Current Folder'
+  sasha_alignment:
+    #############
+    # Alignment #
+    #############
+    # https://packagecontrol.io/packages/Alignment
+    call: sublime.alignment
+    caption: Alignment
+  sasha_anaconda_auto_import:
+    ############
+    # Anaconda #
+    ############
+    # http://damnwidget.github.io/anaconda/
+    call: sublime.anaconda_auto_import
+    caption: 'Anaconda: Autoimport Undefined Word Under Cursor'
+  sasha_anaconda_rename:
+    call: sublime.anaconda_rename
+    caption: 'Anaconda: Rename Object Under Cursor'
+  sasha_can_i_use:
+    #############
+    # Can I Use #
+    #############
+    # https://packagecontrol.io/packages/Can%20I%20Use
+    call: sublime.use_it
+    caption: Can I Use
+  sasha_filecommands_force_quit:
+    ################
+    # FileCommands #
+    ################
+    # https://packagecontrol.io/packages/FileCommands
+    # [NOTE] sublime-commands file exist, but no package name in caption, example:
+    # "caption": ":wq - Save and Quit"
+    call: sublime.force_quit
+    caption: 'FileCommands: Force Quit'
+  sasha_filecommands_open_or_create_file:
+    call: sublime.open_or_create_file
+    caption: 'FileCommands: Open Or Create File'
+  sasha_filecommands_save_quit:
+    call: sublime.save_quit
+    caption: 'FileCommands: Save And Quit'
+  sasha_filecommands_try_quit:
+    call: sublime.try_quit
+    caption: 'FileCommands: Quit'
+  sasha_filefinder:
+    ##############
+    # FileFinder #
+    ##############
+    # https://packagecontrol.io/packages/FileFinder
+    call: sublime.filefinder
+    caption: Filefinder
+  sasha_open_include:
+    ################
+    # Open Include #
+    ################
+    # https://github.com/titoBouzout/Open-Include
+    call: sublime.open_include
+    caption: Open Include
+  sasha_regexexplaintip:
+    ###################
+    # RegexExplainTip #
+    ###################
+    # https://packagecontrol.io/packages/RegexExplainTip
+    call: sublime.regexexplaintip
+    caption: RegexExplainTip
+  sasha_rem_px_pxtorem:
+    ##########
+    # REM-PX #
+    ##########
+    # https://packagecontrol.io/packages/REM%20PX
+    call: sublime.pxtorem
+    caption: 'REM-PX: Px To Rem'
+  sasha_rem_px_remtopx:
+    call: sublime.remtopx
+    caption: 'REM-PX: Rem To Px'
+  sasha_unicode_view:
+    ################
+    # Unicode View #
+    ################
+    # https://github.com/ehuss/Sublime-Unicode-View
+    call: sublime.unicode_view
+    caption: Unicode View
+  sasha_webfont:
+    ###########
+    # WebFont #
+    ###########
+    # https://packagecontrol.io/packages/WebFont
+    call: sublime.webfont
+    caption: Webfont

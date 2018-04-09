@@ -1,0 +1,20 @@
+user_commands:
+  sasha_copy_to_hip_chat:
+    # [DEPRECATED] HipChat upgrade to Stride:
+    # https://blog.stride.com/coming-from-hipchat-heres-what-you-ll-love-in-stride-fcab8f770e03
+    ###################
+    # Copy to HipChat #
+    ###################
+    # https://packagecontrol.io/packages/Copy%20to%20HipChat
+    call: sublime.copy_to_hip_chat
+    caption: Copy To HipChat
+  sasha_lint_travis_yml:
+    # [DEPRECATED] lint.travis-ci.org deprecated:
+    # http://lint.travis-ci.org/
+    # https://github.com/sabhiram/sublime-travis-yml-lint/issues/1
+    ###################
+    # Travis YML Lint #
+    ###################
+    # https://packagecontrol.io/packages/Travis%20YML%20Lint
+    call: sublime.lint_travis_yml
+    caption: Travis YML Lint

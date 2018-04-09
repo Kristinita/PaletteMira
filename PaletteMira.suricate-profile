@@ -1,0 +1,69 @@
+{
+  "description": "Commands Of PaletteMira Package",
+  "user_commands": {
+    "sasha_agent_ransack": {
+      "call": "sublime.agent_ransack",
+      "caption": "AgentRansack: Open AgentRansack In Current Folder"
+    },
+    "sasha_alignment": {
+      "call": "sublime.alignment",
+      "caption": "Alignment"
+    },
+    "sasha_anaconda_auto_import": {
+      "call": "sublime.anaconda_auto_import",
+      "caption": "Anaconda: Autoimport Undefined Word Under Cursor"
+    },
+    "sasha_anaconda_rename": {
+      "call": "sublime.anaconda_rename",
+      "caption": "Anaconda: Rename Object Under Cursor"
+    },
+    "sasha_can_i_use": {
+      "call": "sublime.use_it",
+      "caption": "Can I Use"
+    },
+    "sasha_filecommands_force_quit": {
+      "call": "sublime.force_quit",
+      "caption": "FileCommands: Force Quit"
+    },
+    "sasha_filecommands_open_or_create_file": {
+      "call": "sublime.open_or_create_file",
+      "caption": "FileCommands: Open Or Create File"
+    },
+    "sasha_filecommands_save_quit": {
+      "call": "sublime.save_quit",
+      "caption": "FileCommands: Save And Quit"
+    },
+    "sasha_filecommands_try_quit": {
+      "call": "sublime.try_quit",
+      "caption": "FileCommands: Quit"
+    },
+    "sasha_filefinder": {
+      "call": "sublime.filefinder",
+      "caption": "Filefinder"
+    },
+    "sasha_open_include": {
+      "call": "sublime.open_include",
+      "caption": "Open Include"
+    },
+    "sasha_regexexplaintip": {
+      "call": "sublime.regexexplaintip",
+      "caption": "RegexExplainTip"
+    },
+    "sasha_rem_px_pxtorem": {
+      "call": "sublime.pxtorem",
+      "caption": "REM-PX: Px To Rem"
+    },
+    "sasha_rem_px_remtopx": {
+      "call": "sublime.remtopx",
+      "caption": "REM-PX: Rem To Px"
+    },
+    "sasha_unicode_view": {
+      "call": "sublime.unicode_view",
+      "caption": "Unicode View"
+    },
+    "sasha_webfont": {
+      "call": "sublime.webfont",
+      "caption": "Webfont"
+    }
+  }
+}

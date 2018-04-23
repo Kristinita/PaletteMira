@@ -1,9 +1,22 @@
-# See configuration comments in “.travis.yml file of KristinitaPelican”:
+# See another configuration comments in “.travis.yml file of KristinitaPelican”:
 # https://github.com/Kristinita/KristinitaPelican/blob/master/.travis.yml
+sudo: required
+addons:
+  apt:
+    packages:
+    # All packages besides Parallel — the_silver_searcher building:
+    # https://github.com/ggreer/the_silver_searcher#building-from-source
+    - automake
+    - liblzma-dev
+    - libpcre3-dev
+    - pkg-config
+    - zlib1g-dev
+    - parallel
+
 git:
   depth: 1
 
-# Run Travis CI build only  for specific branch:
+# Run Travis CI build only for specific branch:
 # https://docs.travis-ci.com/user/customizing-the-build/#Safelisting-or-blocklisting-branches
 branches:
   only:
@@ -14,81 +27,80 @@ language: python
 python: 3.6
 
 install:
-  - sudo apt-get install parallel
-  - pip install -U pip
-  - bash misc/travis-install.sh
-  # Move to build directory after HTML Tidy installation:
-  # https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
+- pip install -U pip
+- bash misc/travis-install.sh
+# Move to build directory after HTML Tidy installation:
+# https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
 
 before_script:
-  # [WARNING] If folder “PaletteMiraPackages” no or already exist,
-  # I get an error “no such file or directory”.
-  - mkdir PaletteMiraPackages
-  # [WARNING] Need rename and reverse rename, because traceback in Sublime Text console:
-  # https://stackoverflow.com/a/13599742/5951529
-  - mv ruamelprettify.py.palettemira ruamelprettify.py
+# [WARNING] If folder “PaletteMiraPackages” no or already exist,
+# I get an error “no such file or directory”.
+- mkdir PaletteMiraPackages
+# [WARNING] Need rename and reverse rename, because traceback in Sublime Text console:
+# https://stackoverflow.com/a/13599742/5951529
+- mv ruamelprettify.py.palettemira ruamelprettify.py
+# ruamel.yaml — remove [brackets], {braces} and 'quotes' from YAML files:
+# https://yaml.readthedocs.io/en/latest/
+# https://stackoverflow.com/a/49609535/5951529
+- python ruamelprettify.py PaletteMira.suricate-profile.yaml PaletteMira.suricate-profile.yaml
+# “i18n_yaml_sorter_2” — updated version of outdated package “i18n_yaml_sorter”:
+# https://rubygems.org/gems/i18n_yaml_sorter_2
+# I don't find another method for YAML sort:
+# https://stackoverflow.com/q/49613901/5951529
+# Simply in-file sorting doesn't work, need temporary file:
+# https://github.com/compwron/i18n_yaml_sorter/#usage
+# [NOTE] For chain command in UNIX I need to use “&&”, not “&”:
+# https://stackoverflow.com/a/13077311/5951529
+- sort_yaml < PaletteMira.suricate-profile.yaml > temp && mv temp PaletteMira.suricate-profile.yaml
+# yamljs — convert YAML to JSON:
+# https://www.npmjs.com/package/yamljs
+# “-p” — prettify indented JSON:
+- yaml2json PaletteMira.suricate-profile.yaml > PaletteMira.suricate-profile -p
+# The Silver Searcher: fast search in file:
+# https://geoff.greer.fm/ag/
+# The Platinum Searcher fast also, but re2 library, that use The Platinum Searcher,
+# doesn't support lookahead and lookbehind:
+# https://github.com/leonid-shevtsov/SearchInProject_SublimeText#installing-search-engines
+# https://stackoverflow.com/a/30305934/5951529
+# https://github.com/google/re2/issues/156
+# “-o” argument — output only finded content, not text before and after them:
+- 'ag -o "(?<=# )(.+?)(?= #)" PaletteMira.suricate-profile.yaml > PaletteMiraPackages/active.txt'
+- 'ag -o "(?<=# )(.+?)(?= #)" PaletteMiraDeprecated.suricate-profile.yaml > PaletteMiraPackages/deprecated.txt'
+# Remove all “.cache” files from the_silver_searcher, that st_package_reviewer don't fail:
+# http://bit.ly/2Hl7rwV
+# Remove the_silver_searcher after all actions:
+# https://www.computerhope.com/issues/ch000798.htm
+- rm -rf the_silver_searcher
 
 script:
-  # Travis Client — lint “.travis.yml” file;
-  # “-x” argument — exit code 1, if any warning.
-  # https://rubygems.org/gems/travis
-  - travis lint -x
-  - flake8 .
-  - pydocstyle ruamelprettify.py
-  # ruamel.yaml — remove [brackets], {braces} and 'quotes' from “.yaml” files:
-  # https://yaml.readthedocs.io/en/latest/
-  # https://stackoverflow.com/a/49609535/5951529
-  - python ruamelprettify.py PaletteMira.suricate-profile.yaml PaletteMira.suricate-profile.yaml
-  # “i18n_yaml_sorter_2” — updated version of outdated package “i18n_yaml_sorter”:
-  # https://rubygems.org/gems/i18n_yaml_sorter_2
-  # I don't find another method for YAML sort:
-  # https://stackoverflow.com/q/49613901/5951529
-  # Simply in-file sorting doesn't work, need temporary file:
-  # https://github.com/compwron/i18n_yaml_sorter/#usage
-  # [NOTE] For chain command in UNIX I need to use “&&”, not “&”:
-  # https://stackoverflow.com/a/13077311/5951529
-  - sort_yaml < PaletteMira.suricate-profile.yaml > temp && mv temp PaletteMira.suricate-profile.yaml
-  # yamllint — lint “.yaml” files:
-  # http://yamllint.readthedocs.io/en/latest/
-  - yamllint -s PaletteMira.suricate-profile.yaml
-  # yamljs — convert YAML to JSON:
-  # https://www.npmjs.com/package/yamljs
-  # “-p” — prettify indented JSON:
-  - yaml2json PaletteMira.suricate-profile.yaml > PaletteMira.suricate-profile -p
-  # “jsonlint-cli” — lint JSON:
-  # https://www.npmjs.com/package/jsonlint-cli
-  # Comparison jsonlint and jsonlint-cli:
-  # https://www.npmjs.com/package/jsonlint-cli#feature-comparison
-  - jsonlint-cli PaletteMira.suricate-profile
-  # The Silver Searcher: fast search in file:
-  # https://geoff.greer.fm/ag/
-  # The Platinum Searcher fast also, but re2 library, that use The Platinum Searcher,
-  # doesn't support lookahead and lookbehind:
-  # https://github.com/leonid-shevtsov/SearchInProject_SublimeText#installing-search-engines
-  # https://stackoverflow.com/a/30305934/5951529
-  # https://github.com/google/re2/issues/156
-  # “-o” argument — output only finded content, not text before and after them:
-  - 'ag -o "(?<=# )(.+?)(?= #)" PaletteMira.suricate-profile.yaml > PaletteMiraPackages/active.txt'
-  - 'ag -o "(?<=# )(.+?)(?= #)" PaletteMiraDeprecated.suricate-profile.yaml > PaletteMiraPackages/deprecated.txt'
-  # Remove all “.cache” files from the_silver_searcher, that st_package_reviewer don't fail:
-  # https://github.com/packagecontrol/st_package_reviewer/wiki/Package-checks#cache-file-are-redundant-and-created-by-st-automatically
-  - rm -rf the_silver_searcher/autom4te.cache
-  # st_package_reviewer — Sublime Text packages checker:
-  # https://pypi.org/project/st-package-reviewer/
-  # https://github.com/packagecontrol/st_package_reviewer/wiki
-  - st_package_reviewer -w .
+# Travis Client — lint “.travis.yml” file;
+# “-x” argument — exit code 1, if any warning.
+# https://rubygems.org/gems/travis
+# - travis lint -x
+- flake8 .
+- pydocstyle ruamelprettify.py
+# yamllint — lint YAML files:
+# http://yamllint.readthedocs.io/en/latest/
+- yamllint . .yamllint
+# “jsonlint-cli” — lint JSON:
+# https://www.npmjs.com/package/jsonlint-cli
+# Comparison jsonlint and jsonlint-cli:
+# https://www.npmjs.com/package/jsonlint-cli#feature-comparison
+- jsonlint-cli PaletteMira.suricate-profile misc/PaletteMiraPackageDescription.sublime-macro
+# st_package_reviewer — Sublime Text packages checker:
+# https://pypi.org/project/st-package-reviewer/
+# https://github.com/packagecontrol/st_package_reviewer/wiki
+- st_package_reviewer -w .
 
 after_success:
-  # https://www.computerhope.com/issues/ch000798.htm
-  - rm -rf the_silver_searcher
-  - mv ruamelprettify.py ruamelprettify.py.palettemira
+- mv ruamelprettify.py ruamelprettify.py.palettemira
 
 before_deploy:
-  # Different “.gitignore” files for different branches:
-  # That “PaletteMira.suricate-profile” doesn't exist in remote src branch “SashaYAML”,
-  # but exist in remote dest branch “SashaDevelop”:
-  # https://stackoverflow.com/q/1836742/5951529
-  - mv misc/.gitignore .gitignore
+# Different “.gitignore” files for different branches:
+# That “PaletteMira.suricate-profile” doesn't exist in remote src branch “SashaYAML”,
+# but exist in remote dest branch “SashaDevelop”:
+# https://stackoverflow.com/q/1836742/5951529
+- mv misc/.gitignore .gitignore
 
 deploy:
   provider: pages

@@ -18,3 +18,12 @@ user_commands:
     # https://packagecontrol.io/packages/Travis%20YML%20Lint
     call: sublime.lint_travis_yml
     caption: Travis YML Lint
+  sasha_rails_magic_clipboard:
+    # [BUG] JavaScript doesn't convert to CoffeeScript:
+    # https://github.com/nickdowse/RailsMagicClipboard/issues/9
+    #########################
+    # Rails Magic Clipboard #
+    #########################
+    # https://packagecontrol.io/packages/Rails%20Magic%20Clipboard
+    call: sublime.rails_magic_clipboard
+    caption: Rails Magic Clipboard

@@ -1,3 +1,7 @@
 *.sublime-snippet
 *.suricate-profile
 PaletteMiraPackages/
+
+# That eclint doesn't check this folder:
+# https://github.com/jedmao/eclint/issues/130
+the_silver_searcher/
